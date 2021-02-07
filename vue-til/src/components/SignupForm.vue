@@ -21,6 +21,8 @@
 
 <script>
 import { registerUser } from "@/api/index";
+import { validateEmail } from "@/utils/validation";
+
 export default {
   data() {
     return {
@@ -30,6 +32,11 @@ export default {
       nickname: "",
     };
   },
+  computed: {
+    isUsernameVaild() {
+      return validateEmail(this.username);
+    },
+  },
   methods: {
     async submitForm() {
       const userData = {
@@ -37,7 +44,7 @@ export default {
         password: this.password,
         nickname: this.nickname,
       };
-      const {data} = await registerUser(userData);
+      const { data } = await registerUser(userData);
 
       this.logMassage = `${data.nickname} 님 가입되었습니다.`;
       this.initFrom();
