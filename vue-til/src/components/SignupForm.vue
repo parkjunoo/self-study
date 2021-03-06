@@ -1,41 +1,39 @@
 <template>
-  <form v-on:submit.prevent="submitForm">
-    <div>
-      <label for="username">id : </label>
-      <input type="text" id="username" v-model="username" />
+  <div class="contents">
+    <div class="form-wrapper form-wrapper-sm">
+      <form @submit.prevent="submitForm" class="form">
+        <div>
+          <label for="username">id: </label>
+          <input id="username" type="text" v-model="username" />
+        </div>
+        <div>
+          <label for="password">pw: </label>
+          <input id="password" type="text" v-model="password" />
+        </div>
+        <div>
+          <label for="nickname">nickname: </label>
+          <input id="nickname" type="text" v-model="nickname" />
+        </div>
+        <button type="submit" class="btn">회원 가입</button>
+      </form>
+      <p class="log">{{ logMessage }}</p>
     </div>
-    <div>
-      <label for="password">password : </label>
-      <input type="password" id="password" v-model="password" />
-    </div>
-    <div>
-      <label for="nickname">nickname : </label>
-      <input type="text" id="nickname" v-model="nickname" />
-    </div>
-    <button type="submit">signup</button>
-    <p>
-      {{ logMassage }}
-    </p>
-  </form>
+  </div>
 </template>
 
 <script>
-import { registerUser } from "@/api/index";
-import { validateEmail } from "@/utils/validation";
+import { registerUser } from '@/api/index';
 
 export default {
   data() {
     return {
-      logMassage: "",
-      username: "",
-      password: "",
-      nickname: "",
+      // form values
+      username: '',
+      password: '',
+      nickname: '',
+      // log
+      logMessage: '',
     };
-  },
-  computed: {
-    isUsernameVaild() {
-      return validateEmail(this.username);
-    },
   },
   methods: {
     async submitForm() {
@@ -45,14 +43,14 @@ export default {
         nickname: this.nickname,
       };
       const { data } = await registerUser(userData);
-
-      this.logMassage = `${data.nickname} 님 가입되었습니다.`;
-      this.initFrom();
+      console.log(data.username);
+      this.logMessage = `${data.username} 님이 가입되었습니다`;
+      this.initForm();
     },
-    initFrom() {
-      this.username = "";
-      this.nickname = "";
-      this.password = "";
+    initForm() {
+      this.username = '';
+      this.password = '';
+      this.nickname = '';
     },
   },
 };
